@@ -114,7 +114,10 @@ def init_azure():
     cosmos_table_name = os.getenv("AZURE_COSMOSDB_TABLE_NAME", "EvaluationEvents")
 
     if not all([sb_conn_str, sb_queue_name, cosmos_conn_str]):
-        log.critical("Erro: AZURE_SERVICEBUS_CONNECTION_STRING, AZURE_SERVICEBUS_QUEUE_NAME e AZURE_COSMOSDB_CONNECTION_STRING devem ser definidos.")
+        log.critical(
+            "Erro: AZURE_SERVICEBUS_CONNECTION_STRING, AZURE_SERVICEBUS_QUEUE_NAME"
+            " e AZURE_COSMOSDB_CONNECTION_STRING devem ser definidos."
+        )
         sys.exit(1)
 
     sb_client = ServiceBusClient.from_connection_string(sb_conn_str)
@@ -165,6 +168,7 @@ def azure_worker_loop(sb_client, queue_name, table_client):
 # ===================== Flask (Health Check) =====================
 
 app = Flask(__name__)
+
 
 @app.route('/health')
 def health():
